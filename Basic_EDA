@@ -1,0 +1,53 @@
+library(DataExplorer)
+
+choco <- read.csv('../input/flavors_of_cacao.csv', header = T, stringsAsFactors = F)
+choco$Cocoa.Percent <- as.numeric(gsub('%','',choco$Cocoa.Percent))
+choco$Review.Date <- as.character(choco$Review.Date)
+
+### Variables 
+
+The very first thing that you'd want to do in your EDA is checking the dimension of the input dataset and the time of variables.  
+
+```{r}
+
+plot_str(choco)
+
+Ideally, this generates a network graph that's interactive which means, when hovered the variable names zoom in and zoom out.
+
+With that, we can see we've got some Continuous variables and some Categorical variables. 
+
+#introduce(choco) ## Kaggle Docker version mismatch
+
+plot_missing(choco)
+
+### Histogram of Continuous Variables
+
+plot_histogram(choco)
+
+
+### Perhaps, you are a fan of Density plot
+
+plot_density(choco)
+
+### Colorful Correlation Plot
+
+Correlation plot exposes so much when it comes to modelling - starting from dropping highlighly correlated features to new feature engineering:
+
+plot_correlation(choco, type = 'continuous','Review.Date')
+
+### Time for some Categorical Variables - Barplots!
+
+plot_bar(choco) 
+
+### Boxplots
+
+plot_boxplot(choco, by = "Company.Location") 
+
+### Scatterplot
+
+plot_scatterplot(choco, by = "Broad.Bean.Origin", size = 0.5) 
+plot_scatterplot(choco, by = "Broad.Bean.Origin") 
+
+create_report(choco) #comment this if you're not rendering this entire rmarkdown
+
+
